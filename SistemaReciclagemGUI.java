@@ -225,21 +225,23 @@ class Residuo {
     public void setProcessado(boolean processado) { this.processado = processado; }
 }
 
-class Usuario {
+class Usuario implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String id;
     private String nome;
     private int moedas;
-    
+
     public Usuario(String id, String nome) {
         this.id = id;
         this.nome = nome;
         this.moedas = 0;
     }
-    
+
     public void adicionarMoedas(int quantidade) {
         moedas += quantidade;
     }
-    
+
     // Getters
     public String getId() { return id; }
     public String getNome() { return nome; }
@@ -364,60 +366,70 @@ public class SistemaReciclagemGUI extends JFrame implements LixeiraListener {
     }
     
     private void initComponents() {
-        setTitle("Sistema de Reciclagem EcoReward");
-        setSize(600, 400);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout(10, 10));
-        
-        // Painel de controle
-        JPanel painelControle = new JPanel(new GridLayout(0, 2, 10, 10));
-        
-        // Seleção de usuário
-        painelControle.add(new JLabel("Usuário:"));
-        cbUsuarios = new JComboBox<>();
-        atualizarUsuariosComboBox();
-        painelControle.add(cbUsuarios);
-        
-        // Botão para novo usuário
-        JButton btnNovoUsuario = new JButton("Novo Usuário");
-        btnNovoUsuario.addActionListener(this::criarNovoUsuario);
-        painelControle.add(btnNovoUsuario);
-        
-        // Exibição de moedas
-        painelControle.add(new JLabel("Moedas:"));
-        lblMoedas = new JLabel("0");
-        painelControle.add(lblMoedas);
-        
-        // Seleção de lixeira
-        painelControle.add(new JLabel("Lixeira:"));
-        cbLixeiras = new JComboBox<>(new String[]{"PLÁSTICO", "VIDRO", "METAL", "PAPEL"});
-        painelControle.add(cbLixeiras);
-        
-        // Seleção de tipo de resíduo
-        painelControle.add(new JLabel("Tipo de Resíduo:"));
-        cbResiduos = new JComboBox<>(new String[]{"PLÁSTICO", "VIDRO", "METAL", "PAPEL"});
-        painelControle.add(cbResiduos);
-        
-        // Entrada de peso
-        painelControle.add(new JLabel("Peso (kg):"));
-        txtPeso = new JTextField("0.5");
-        painelControle.add(txtPeso);
-        
-        // Botão de descarte
-        JButton btnDescartar = new JButton("Descartar Resíduo");
-        btnDescartar.addActionListener(this::descartarResiduo);
-        painelControle.add(btnDescartar);
-        
-        add(painelControle, BorderLayout.NORTH);
-        
-        // Área de log
-        txtLog = new JTextArea();
-        txtLog.setEditable(false);
-        add(new JScrollPane(txtLog), BorderLayout.CENTER);
-        
-        // Atualizar dados do usuário selecionado
-        cbUsuarios.addActionListener(e -> atualizarUsuarioSelecionado());
-    }
+    setTitle("Sistema de Reciclagem EcoReward");
+    setSize(600, 400);
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    setLayout(new BorderLayout(10, 10));
+
+    // Painel de controle agora em 1 coluna
+    JPanel painelControle = new JPanel(new GridLayout(0, 1, 10, 10));
+    
+    // --- Linha: Seleção de usuário + botão Novo Usuário ---
+    JPanel linhaUsuario = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+    linhaUsuario.add(new JLabel("Usuário:"));
+    cbUsuarios = new JComboBox<>();
+    atualizarUsuariosComboBox();
+    linhaUsuario.add(cbUsuarios);
+    JButton btnNovoUsuario = new JButton("Novo Usuário");
+    btnNovoUsuario.addActionListener(this::criarNovoUsuario);
+    linhaUsuario.add(btnNovoUsuario);
+    painelControle.add(linhaUsuario);
+
+    // --- Linha: Moedas ---
+    JPanel linhaMoedas = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+    linhaMoedas.add(new JLabel("Moedas:"));
+    lblMoedas = new JLabel("0");
+    linhaMoedas.add(lblMoedas);
+    painelControle.add(linhaMoedas);
+
+    // --- Linha: Lixeira ---
+    JPanel linhaLixeira = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+    linhaLixeira.add(new JLabel("Lixeira:"));
+    cbLixeiras = new JComboBox<>(new String[]{"PLÁSTICO", "VIDRO", "METAL", "PAPEL"});
+    linhaLixeira.add(cbLixeiras);
+    painelControle.add(linhaLixeira);
+
+    // --- Linha: Tipo de Resíduo ---
+    JPanel linhaTipo = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+    linhaTipo.add(new JLabel("Tipo de Resíduo:"));
+    cbResiduos = new JComboBox<>(new String[]{"PLÁSTICO", "VIDRO", "METAL", "PAPEL"});
+    linhaTipo.add(cbResiduos);
+    painelControle.add(linhaTipo);
+
+    // --- Linha: Peso ---
+    JPanel linhaPeso = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+    linhaPeso.add(new JLabel("Peso (kg):"));
+    txtPeso = new JTextField("0.5", 10);
+    linhaPeso.add(txtPeso);
+    painelControle.add(linhaPeso);
+
+    // --- Linha: Botão Descarte ---
+    JPanel linhaBotao = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+    JButton btnDescartar = new JButton("Descartar Resíduo");
+    btnDescartar.addActionListener(this::descartarResiduo);
+    linhaBotao.add(btnDescartar);
+    painelControle.add(linhaBotao);
+
+    add(painelControle, BorderLayout.NORTH);
+
+    // Área de log
+    txtLog = new JTextArea();
+    txtLog.setEditable(false);
+    add(new JScrollPane(txtLog), BorderLayout.CENTER);
+
+    // Atualizar dados do usuário selecionado
+    cbUsuarios.addActionListener(e -> atualizarUsuarioSelecionado());
+}
     
     private void atualizarUsuariosComboBox() {
         cbUsuarios.removeAllItems();
