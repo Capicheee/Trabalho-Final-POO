@@ -1,0 +1,115 @@
+@startuml
+skinparam style strictuml
+
+' Interfaces
+interface LixeiraListener
+interface EstadoResiduo
+interface ValidadorResiduo
+interface CalculadoraRecompensa
+
+' Classes principais
+class Residuo {
+  -tipo: String
+  -peso: double
+  -estado: EstadoResiduo
+  -processado: boolean
+  +validar(usuario: Usuario)
+  +processarRecompensa(usuario: Usuario)
+}
+
+class Usuario {
+  -id: String
+  -nome: String
+  -moedas: int
+  +adicionarMoedas(int)
+  +getId(): String
+  +getNome(): String
+  +getMoedas(): int
+}
+
+class LixeiraInteligente {
+  -tipo: String
+  -capacidade: double
+  -listeners: List<LixeiraListener>
+  +addListener(LixeiraListener)
+  +descartarResiduo(Residuo, Usuario)
+}
+
+class SistemaReciclagemGUI {
+  -usuarioAtual: Usuario
+  -usuarios: List<Usuario>
+  -lixeiras: Map<String, LixeiraInteligente>
+}
+
+class SistemaRecompensas {
+  -estrategias: Map<String, CalculadoraRecompensa>
+  +getInstance(): SistemaRecompensas
+  +calcularRecompensa(tipo: String, peso: double): int
+}
+
+class GerenciadorUsuarios {
+  +salvarUsuarios(List<Usuario>)
+  +carregarUsuarios(): List<Usuario>
+}
+
+' Estados
+class EstadoPendente
+class EstadoValidando
+class EstadoAprovado
+class EstadoRejeitado
+
+' Validadores
+class ValidadorBasico
+abstract class ValidadorDecorator {
+  -validador: ValidadorResiduo
+}
+class ValidadorTipoMaterial
+class ValidadorPesoMinimo
+
+' Calculadoras
+class CalculadoraPlastico
+class CalculadoraVidro
+class CalculadoraMetal
+class CalculadoraPapel
+
+' Exceções
+class LixeiraException
+class SistemaArquivosException
+
+' ------------------------
+' Relações e Heranças
+
+Residuo --> EstadoResiduo
+Residuo --> Usuario : usa
+Residuo --> EstadoPendente : estado inicial
+
+EstadoPendente ..|> EstadoResiduo
+EstadoValidando ..|> EstadoResiduo
+EstadoAprovado ..|> EstadoResiduo
+EstadoRejeitado ..|> EstadoResiduo
+
+ValidadorBasico ..|> ValidadorResiduo
+ValidadorDecorator ..|> ValidadorResiduo
+ValidadorTipoMaterial --|> ValidadorDecorator
+ValidadorPesoMinimo --|> ValidadorDecorator
+
+CalculadoraPlastico ..|> CalculadoraRecompensa
+CalculadoraVidro ..|> CalculadoraRecompensa
+CalculadoraMetal ..|> CalculadoraRecompensa
+CalculadoraPapel ..|> CalculadoraRecompensa
+
+SistemaRecompensas --> CalculadoraRecompensa : usa
+
+SistemaReciclagemGUI --> LixeiraListener
+SistemaReciclagemGUI --> Usuario
+SistemaReciclagemGUI --> LixeiraInteligente
+
+LixeiraInteligente --> LixeiraListener : notifica
+LixeiraInteligente --> Residuo : descarta
+LixeiraInteligente --> Usuario : valida
+
+GerenciadorUsuarios --> Usuario
+
+SistemaArquivosException --> Exception
+LixeiraException --> Exception
+@enduml
