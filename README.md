@@ -1,12 +1,14 @@
-# ♻️ Sistema de Reciclagem Inteligente
+# Sistema de Reciclagem Inteligente
 
-## 📑 Descrição Geral
+Discentes: Igor Daniel Toledo Campos, Islabelle Vitória Mendonça Bastos, Juliano Kenzo Watanabe Santana
+
+## Descrição Geral
 
 Este projeto consiste em um sistema interativo de reciclagem com recompensas, implementado em Java com interface gráfica baseada na biblioteca Swing. O objetivo principal é simular o funcionamento de lixeiras inteligentes que reconhecem e validam resíduos recicláveis, recompensando os usuários por suas ações sustentáveis.
 
 A aplicação adota diversos padrões de projeto (Observer, State, Strategy, Decorator e Singleton) com o propósito de reforçar boas práticas de engenharia de software e arquitetura orientada a objetos.
 
-## 🎯 Propósito do Sistema
+## Propósito do Sistema
 
 A finalidade do sistema é promover a educação ambiental e o engajamento dos usuários no descarte correto de resíduos recicláveis, oferecendo moedas virtuais como recompensa. Para isso, o sistema:
 
@@ -18,23 +20,23 @@ A finalidade do sistema é promover a educação ambiental e o engajamento dos u
 
 Esse projeto tem aplicação didática em cursos de Ciência da Computação e Engenharia de Software, abordando tanto conceitos de interface gráfica quanto de padrões de projeto e persistência de dados.
 
-## ⚙️ Funcionalidades Implementadas
+##  Funcionalidades Implementadas
 
-- 👤 **Gestão de Usuários**
+-  **Gestão de Usuários**
   - Criação de novos usuários com ID único;
   - Persistência dos dados em arquivo binário (`usuarios.dat`);
   - Exibição do saldo de moedas acumuladas por usuário.
 
-- 🗑️ **Simulação de Lixeiras Inteligentes**
+-  **Simulação de Lixeiras Inteligentes**
   - Cada lixeira aceita apenas resíduos compatíveis com seu tipo;
   - Verificação de capacidade máxima da lixeira;
   - Notificação automática via padrão Observer ao receber resíduos.
 
-- ✅ **Validação de Resíduos (State + Decorator)**
+-  **Validação de Resíduos (State + Decorator)**
   - Implementação do ciclo de validação com estados: Pendente, Aprovado, Rejeitado e Em Validação;
   - Regras encadeadas para verificação de tipo de material e peso mínimo.
 
-- 💰 **Sistema de Recompensas (Strategy + Singleton)**
+-  **Sistema de Recompensas (Strategy + Singleton)**
   - Cálculo de moedas com base no tipo e peso do material:
     - Plástico: 10 moedas/kg
     - Vidro: 8 moedas/kg
@@ -42,16 +44,16 @@ Esse projeto tem aplicação didática em cursos de Ciência da Computação e E
     - Papel: 6 moedas/kg
   - Gestão centralizada e reutilizável via instância Singleton.
 
-- 🖥️ **Interface Gráfica com Swing**
+-  **Interface Gráfica com Swing**
   - Componentes interativos como JComboBox, JTextField e JTextArea;
   - Feedback visual em tempo real ao usuário;
   - Registro das ações no log textual da interface.
 
-- ⚠️ **Tratamento de Exceções Personalizadas**
+-  **Tratamento de Exceções Personalizadas**
   - `LixeiraException` para erros no descarte;
   - `SistemaArquivosException` para problemas de leitura e gravação de arquivos.
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 - **Linguagem:** Java 11+
 - **Bibliotecas:** Java Swing (javax.swing), Java IO e Collections
@@ -63,7 +65,7 @@ Esse projeto tem aplicação didática em cursos de Ciência da Computação e E
   - Decorator
   - Singleton
 
-## 🗂️ Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```
 ├── SistemaReciclagemGUI.java        # Classe principal com a interface gráfica
@@ -80,7 +82,7 @@ Esse projeto tem aplicação didática em cursos de Ciência da Computação e E
 └── usuarios.dat                    # Arquivo gerado para armazenamento de dados
 ```
 
-## 🚀 Como Executar o Projeto
+##  Como Executar o Projeto
 
 1. **Requisitos**
    - JDK 11 ou superior instalado
@@ -102,7 +104,7 @@ Esse projeto tem aplicação didática em cursos de Ciência da Computação e E
    - Informe o peso e descarte o resíduo;
    - Veja o resultado no log e acompanhe o saldo de moedas.
 
-## 📌 Considerações Finais
+##  Considerações Finais
 
 Este sistema representa uma aplicação prática de conceitos de orientação a objetos e padrões de projeto em um contexto de sustentabilidade. Pode ser expandido com novas funcionalidades, como:
 
